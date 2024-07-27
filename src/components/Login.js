@@ -10,6 +10,7 @@ import { auth } from "../utils/Firebase";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { USER_avatar } from "../utils/Constant";
 
 const Login = () => {
   const [isSignInForm, setisSignInForm] = useState(true);
@@ -46,12 +47,11 @@ const Login = () => {
           // console.log(user);
           updateProfile(user, {
             displayName: name.current.value,
-            photoURL:
-              "https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png",
+            photoURL: USER_avatar,
           })
             .then(() => {
               const { uid, email, displayName, photoURL } = auth.currentUser;
-              // console.log(photoURL);
+              console.log(photoURL);
               dispatch(
                 addUser({
                   uid: uid,
@@ -60,14 +60,13 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              Navigate("/browse");
             })
             .catch((error) => {
               // An error occurred
               // ...
               setErrorMessage(error.message);
             });
-          Navigate("/browse");
+          
           // ...
         })
         .catch((error) => {
@@ -86,9 +85,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          // ...
-          // console.log(user);
-          Navigate("/browse");
+
         })
         .catch((error) => {
           const errorCode = error.code;
